@@ -12,20 +12,33 @@ A Java-Spring based project solution for TTRPG custom system for Kanion-Land Rol
    - Java 11 or higher
    - Maven 3.6 or higher
 
-3. Build the project using Maven:
+3. Set the current Spring profile to local:
+    Linux/macOS
+   ```bash 
+   export SPRING_PROFILES_ACTIVE=local
+   ```
+    Windows
+   ```cmd
+   set SPRING_PROFILES_ACTIVE=local
+   ```
+
+4. Build the project using Maven:
    ```bash
    mvn clean install
    ```
-4. Run the application:
+5. Run the application:
    ```bash
    mvn spring-boot:run
    ```
-5. Access the application at `http://localhost:8080`.
+6. Access the application at `http://localhost:8080`.
 
 ## Implementation Details
 - This service is a Backend-For-Frontend (BFF) that is expected to be consumed by either a FrontEnd or a Chatbot from Telegram or Discord.
 - The project is structured using Spring Boot and follows best practices for RESTful API design.
-- Clean Architecture principles are applied to ensure maintainability and scalability.
+- Hexagonal Architecture principles are applied to ensure maintainability and scalability.
+  - This approach is preferred than Clean Architecture as the size of the microservice is not expected to hold too many operations or concerns, while still providing a clear separation of concerns and a better maintainability. ![HexArq.png](resources/HexArq.png)
+  - The business logic doesn't represent a high complexity for the system, so using a Clean Architecture approach could lead to over-engineering.
+  - Hexagonal Architecture is also focused on separation of concerns through ports and adapters, bringing easier adaptation to external consumers, services and frameworks.
 - Endpoint definition is provided through API First contracts using OpenAPI/Swagger.
 - The project includes unit and integration tests to ensure code quality and reliability, relying mostly on JUnit and Mockito.
 

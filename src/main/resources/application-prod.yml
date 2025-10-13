@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+external-api:
+  character-service:
+    url: ${CHARACTER_SERVICE_URL}
+    port: ${CHARACTER_SERVICE_PORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics

@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  security:
+    user:
+      name: user
+      password: localpass
+
+external-api:
+  character-service:
+    url: http://127.0.0.1
+    port: 8000
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.kanionland: DEBUG
