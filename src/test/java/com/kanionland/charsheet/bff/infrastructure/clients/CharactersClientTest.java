@@ -1,96 +1,100 @@
 package com.kanionland.charsheet.bff.infrastructure.clients;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.kanionland.charsheet.bff.TestConfig;
-import org.junit.jupiter.api.AfterEach;
+import com.kanionland.charsheet.bff.WireMockTestConfig;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest
 @ActiveProfiles("test")
-@EnableFeignClients(clients = CharactersClient.class)
-@Import(TestConfig.class)
+@EnableFeignClients
+@EnableConfigurationProperties
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = {WireMockTestConfig.class})
 class CharactersClientTest {
 
-  public static final String INCOMING_UUID = "550e8400-e29b-41d4-a716-446655440000";
+  @Autowired
+  private WireMockServer characterClientServer;
+
+  @Autowired
+  private WireMockServer characterClientServerBack;
 
   @Autowired
   private CharactersClient characterClient;
 
-  private WireMockServer wireMockServer;
+  @SneakyThrows
+  private static void setupCharacterClientResponse(WireMockServer mockService) {
+    final String responseBody = """
+        [{
+            "char_id":"550e8400-e29b-41d4-a716-446655440000",
+            "name":"Mayu",
+            "race":"Pumiblu",
+            "gender":"Female",
+            "age":25,
+            "weight":70,
+            "height":180,
+            "money":1000,
+            "title":"Hunter",
+            "hunger":50,
+            "thirst":50,
+            "sleep":50
+        }]""";
 
-  @BeforeEach
-  void setUp() {
-    wireMockServer = new WireMockServer(8089);
-    wireMockServer.start();
-    WireMock.configureFor("localhost", 8089);
-  }
-
-  @AfterEach
-  void tearDown() {
-    wireMockServer.stop();
-  }
-
-  @Test
-  void getCharacters_shouldReturnCharacters() {
-    // Given
-    String responseBody = """
-            [{
-                "char_id":"550e8400-e29b-41d4-a716-446655440000",
-                "name":"Mayu",
-                "race":"Pumiblu",
-                "gender":"Female",
-                "age":25,
-                "weight":70,
-                "height":180,
-                "money":1000,
-                "title":"Hunter",
-                "hunger":50,
-                "thirst":50,
-                "sleep":50
-            }]""";
-
-    stubFor(get(urlPathEqualTo("/characters"))
+    mockService.stubFor(WireMock.get(WireMock.urlPathEqualTo("/characters"))
         .withQueryParam("offset", equalTo("10"))
         .withQueryParam("page_size", equalTo("10"))
         .withQueryParam("page_number", equalTo("10"))
-        .willReturn(aResponse()
-            .withHeader("Content-Type", "application/json")
+        .willReturn(WireMock.aResponse()
+            .withStatus(HttpStatus.OK.value())
+            .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
             .withBody(responseBody)));
+  }
 
+  @BeforeEach
+  @SneakyThrows
+  void setUp() {
+    setupCharacterClientResponse(characterClientServer);
+    setupCharacterClientResponse(characterClientServerBack);
+  }
+
+  @Test
+  void whenGetCharacters_thenReturnCharacterList() {
     // When
     var result = characterClient.getCharacters(10, 10, 10);
-
     // Then
     assertNotNull(result);
     assertFalse(result.isEmpty());
     var character = result.get(0);
-    assertEquals(INCOMING_UUID, character.getCharId());
-    assertEquals("Mayu", character.getName());
-    assertEquals("Pumiblu", character.getRace());
-    assertEquals("Female", character.getGender());
-    assertEquals(25, character.getAge());
-    assertEquals(70, character.getWeight());
-    assertEquals(180, character.getHeight());
-    assertEquals(1000, character.getMoney());
-    assertEquals("Hunter", character.getTitle());
-    assertEquals(50, character.getHunger());
-    assertEquals(50, character.getThirst());
-    assertEquals(50, character.getSleep());
+    assertThat(character.getCharId()).isEqualTo("550e8400-e29b-41d4-a716-446655440000");
+    assertThat(character.getName()).isEqualTo("Mayu");
+    assertThat(character.getRace()).isEqualTo("Pumiblu");
+    assertThat(character.getGender()).isEqualTo("Female");
+    assertThat(character.getAge()).isEqualTo(25);
+    assertThat(character.getWeight()).isEqualTo(70);
+    assertThat(character.getHeight()).isEqualTo(180);
+    assertThat(character.getMoney()).isEqualTo(1000);
+    assertThat(character.getTitle()).isEqualTo("Hunter");
+    assertThat(character.getHunger()).isEqualTo(50);
+    assertThat(character.getThirst()).isEqualTo(50);
+    assertThat(character.getSleep()).isEqualTo(50);
   }
+
+
 }

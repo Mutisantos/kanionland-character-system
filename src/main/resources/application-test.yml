@@ -1,12 +1,26 @@
 spring:
   application:
     name: character-bff-service-test
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+    discovery:
+      client:
+        simple:
+          instances:
+            character-bff-service-test[0]:
+              uri: http://localhost:8089
+            character-bff-service-test[1]:
+              uri: http://localhost:8090
   main:
     allow-bean-definition-overriding: true
 
+
 external-api:
   character-service:
-    url: http://localhost:${wiremock.server.port:8089}
+    url: http://localhost
+    port: 8089
 
 wiremock:
   server:
