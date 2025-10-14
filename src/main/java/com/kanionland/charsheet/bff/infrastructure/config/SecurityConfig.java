@@ -12,7 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   @Bean
-  @Profile("local")
+  @Profile("local | test")
   public SecurityFilterChain securityFilterChainLocal(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth
@@ -23,7 +23,7 @@ public class SecurityConfig {
   }
 
   @Bean
-  @Profile("!local")
+  @Profile("dev | prod")
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
         .authorizeHttpRequests(auth -> auth

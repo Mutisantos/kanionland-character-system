@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: character-bff-service-test
+  main:
+    allow-bean-definition-overriding: true
+
+external-api:
+  character-service:
+    url: http://localhost:${wiremock.server.port:8089}
+
+wiremock:
+  server:
+    port: 8089
+
+logging:
+  level:
+    org.springframework: DEBUG
+    com.kanionland: DEBUG
+    feign: DEBUG
+
