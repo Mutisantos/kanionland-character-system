@@ -32,3 +32,5 @@ logging:
     com.kanionland: DEBUG
     feign: DEBUG
 
+jwt:
+  secret: ${JWT_SECRET:31qRand0mdYSYgM=}

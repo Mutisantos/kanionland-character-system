@@ -7,10 +7,16 @@ spring:
       name: user
       password: localpass
 
+server:
+  port: 8081
+
 external-api:
   character-service:
-    url: http://127.0.0.1
+    url: localhost
     port: 8000
+  game-session-service:
+    url: localhost
+    port: 8001
 
 logging:
   level:

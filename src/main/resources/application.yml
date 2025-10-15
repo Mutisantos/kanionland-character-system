@@ -14,3 +14,5 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: basic
+jwt:
+  secret: your-256-bit-secret
