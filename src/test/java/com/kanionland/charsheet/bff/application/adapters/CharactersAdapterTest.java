@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.kanionland.charsheet.bff.application.mappers.CharacterMapper;
@@ -40,15 +41,16 @@ class CharactersAdapterTest {
 
     final Character expectedCharacter = Character.builder().id(charId).build();
 
-    when(client.getCharacters(anyInt(), anyInt(), anyInt())).thenReturn(List.of(clientResponse));
+    when(client.getCharacters(anyString(), anyInt(), anyInt(), anyInt())).thenReturn(
+        List.of(clientResponse));
     when(mapper.toDomain(clientResponse)).thenReturn(expectedCharacter);
 
     // When
-    List<Character> result = adapter.getCharacters(0, 10, 0);
+    List<Character> result = adapter.getCharacters("authToken", 0, 10, 0);
 
     // Then
     assertNotNull(result);
     assertFalse(result.isEmpty());
-    assertEquals(charId, result.get(0).getId());
+    assertEquals(charId, result.getFirst().getId());
   }
 }

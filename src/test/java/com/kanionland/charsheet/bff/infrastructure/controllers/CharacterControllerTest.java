@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import com.kanionland.charsheet.bff.application.ports.CharactersPort;
@@ -32,11 +33,11 @@ class CharacterControllerTest {
     UUID charId = UUID.randomUUID();
     Character character = Character.builder().id(charId).build();
 
-    when(charactersPort.getCharacters(anyInt(), anyInt(), anyInt()))
+    when(charactersPort.getCharacters(anyString(), anyInt(), anyInt(), anyInt()))
         .thenReturn(List.of(character));
 
     // When
-    ResponseEntity<List<Character>> response = controller.getCharacters(0, 10, 0);
+    ResponseEntity<List<Character>> response = controller.getCharacters("authToken", 0, 10, 0);
 
     // Then
     assertNotNull(response);

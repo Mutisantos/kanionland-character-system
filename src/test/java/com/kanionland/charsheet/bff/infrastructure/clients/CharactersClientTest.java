@@ -77,7 +77,7 @@ class CharactersClientTest {
   @Test
   void whenGetCharacters_thenReturnCharacterList() {
     // When
-    var result = characterClient.getCharacters(10, 10, 10);
+    var result = characterClient.getCharacters("authToken", 10, 10, 10);
     // Then
     assertNotNull(result);
     assertFalse(result.isEmpty());

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CharactersPort {
 
-  List<Character> getCharacters(int offset, int pageSize, int pageNumber);
+  List<Character> getCharacters(String authToken, int offset, int pageSize, int pageNumber);
 }

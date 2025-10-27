@@ -17,11 +17,10 @@ public class CharactersAdapter implements CharactersPort {
   private final CharacterMapper characterMapper;
 
   @Override
-  public List<Character> getCharacters(int offset, int pageSize, int pageNumber) {
-    List<CharacterResponse> responses = characterClient.getCharacters(offset, pageSize, pageNumber);
+  public List<Character> getCharacters(String authToken, int offset, int pageSize, int pageNumber) {
+    List<CharacterResponse> responses = characterClient.getCharacters(authToken, offset, pageSize, pageNumber);
     return responses.stream()
         .map(characterMapper::toDomain)
         .collect(Collectors.toList());
   }
-
 }
