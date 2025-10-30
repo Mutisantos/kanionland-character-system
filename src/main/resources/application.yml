@@ -6,6 +6,9 @@ external-api:
   character-service:
     url: http://127.0.0.1
     port: 8000
+  game-session-service:
+    url: http://127.0.0.1
+    port: 8090
 
 feign:
   client:

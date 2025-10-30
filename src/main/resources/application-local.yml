@@ -16,7 +16,7 @@ external-api:
     port: 8000
   game-session-service:
     url: localhost
-    port: 8001
+    port: 8090
 
 logging:
   level:

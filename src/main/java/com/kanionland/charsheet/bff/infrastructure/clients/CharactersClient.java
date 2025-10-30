@@ -1,17 +1,16 @@
 package com.kanionland.charsheet.bff.infrastructure.clients;
 
 
-
-import com.kanionland.charsheet.bff.infrastructure.dtos.CharacterResponse;
+import com.kanionland.charsheet.bff.infrastructure.responses.CharacterResponse;
+import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @FeignClient(name = "characterServiceClient", url = "${external-api.character-service.url}:${external-api.character-service.port}")
 public interface CharactersClient {
+
   @GetMapping("/characters")
   List<CharacterResponse> getCharacters(
       @RequestHeader("Authorization") String authToken,

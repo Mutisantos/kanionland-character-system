@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 import com.kanionland.charsheet.bff.application.mappers.CharacterMapper;
 import com.kanionland.charsheet.bff.domain.models.Character;
 import com.kanionland.charsheet.bff.infrastructure.clients.CharactersClient;
-import com.kanionland.charsheet.bff.infrastructure.dtos.CharacterResponse;
+import com.kanionland.charsheet.bff.infrastructure.responses.CharacterResponse;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;

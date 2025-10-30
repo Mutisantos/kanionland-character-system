@@ -1,7 +1,7 @@
 package com.kanionland.charsheet.bff.application.mappers;
 
 import com.kanionland.charsheet.bff.domain.models.Character;
-import com.kanionland.charsheet.bff.infrastructure.dtos.CharacterResponse;
+import com.kanionland.charsheet.bff.infrastructure.responses.CharacterResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

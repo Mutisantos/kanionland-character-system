@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.kanionland.charsheet.bff.domain.models.Character;
-import com.kanionland.charsheet.bff.infrastructure.dtos.CharacterResponse;
+import com.kanionland.charsheet.bff.infrastructure.responses.CharacterResponse;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
@@ -49,7 +49,6 @@ class CharacterMapperTest {
     // Then
     assertNotNull(result);
     assertEquals(CHAR_UUID, result.getId());
-
 
     assertEquals(CHARACTER_NAME, result.getName());
     assertEquals(RACE, result.getRace());

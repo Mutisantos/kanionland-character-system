@@ -1,4 +1,4 @@
-package com.kanionland.charsheet.bff.infrastructure.dtos;
+package com.kanionland.charsheet.bff.infrastructure.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
