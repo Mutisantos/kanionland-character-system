@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class DiceRollActionDto implements ActionDto {
 
   private String stat;
+  private int statValue;
   private int challengeValue;
   private int rollValue;
   private List<Integer> fateRollValues;

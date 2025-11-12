@@ -11,10 +11,11 @@ import lombok.Data;
 @AllArgsConstructor
 public class DiceRollAction implements Action {
 
-  private final String stat;
-  private final int challengeValue;
-  private final int rollValue;
-  private final List<Integer> fateRollValues;
+  private String stat;
+  private List<Integer> fateRollValues;
+  private int challengeValue;
+  private int rollValue;
+  private int statValue;
 
   @Override
   public ActionType getType() {

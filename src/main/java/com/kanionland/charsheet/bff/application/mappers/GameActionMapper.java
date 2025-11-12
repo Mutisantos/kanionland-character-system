@@ -40,6 +40,7 @@ public interface GameActionMapper {
 
   PurchaseAction toPurchaseAction(PurchaseActionDto dto);
 
+  @Mapping(source = "statValue", target = "statValue")
   DiceRollAction toDiceRollAction(DiceRollActionDto dto);
 
   InteractionAction toInteractionAction(InteractionActionDto dto);
